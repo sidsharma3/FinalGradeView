@@ -1,0 +1,551 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    %}
+    <br/>
+    <h1 align="center">{{name}}</h1>
+    <br/>
+    <p><a href="#Course_Grades">Go To Course Grades</a></p>
+    <p><a href="#Semester_Grades">Go To Semester Grades</a></p>
+    {% if isAdmin %}
+    <p><a href="#File_Upload">Go To File Upload</a></p>
+    {% endif %}
+    
+    
+    
+    <h1 id="Course_Grades" align="center">Course Grades</h1>
+    <table class="table">
+      <tr>
+        <th scope="col">Course:</th>
+        <th scope="col">Total Score:</th>
+        <th scope="col">Letter Grade:</th> 
+        <th scope="col">Exam:</th>
+        <th scope="col">CA:</th>
+      </tr>
+      {% for note in user.notes %}
+      <tr scope="row">
+        <th>{{ note.courseName }}</th>
+        <th scope="row">{{ note.totalScore }}</th>
+        <th scope="row">{{ note.letterGrade }}</th>
+        <th scope="row">{{ note.exam }}</th>
+        <th scope="row">{{ note.ca }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <h1 id="Semester_Grades" align="center">Semester Grades</h1>
+    <table class="table">
+      <tr>
+        <th scope="col">Year One</th>
+        <th scope="col">Semester One</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "1")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "1")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "1")|first).tcu }}</th>
+        {% endif %}
+         </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 1 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year One</th>
+        <th scope="col">Semester Two</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "2")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "2")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 1)|selectattr("semester", 'eq', "2")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 1 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+      <tr>
+        <th scope="col">Year Two</th>
+        <th scope="col">Semester One</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "1")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "1")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "1")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 2 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Two</th>
+        <th scope="col">Semester Two</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "2")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "2")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 2)|selectattr("semester", 'eq', "2")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 2 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+    
+      <tr>
+        <th scope="col">Year Three</th>
+        <th scope="col">Semester One</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "1")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "1")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "1")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 3 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Three</th>
+        <th scope="col">Semester Two</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "2")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "2")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 3)|selectattr("semester", 'eq', "2")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 3 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+    
+      <tr>
+        <th scope="col">Year Four</th>
+        <th scope="col">Semester One</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "1")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "1")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "1")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 4 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Four</th>
+        <th scope="col">Semester Two</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "2")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "2")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 4)|selectattr("semester", 'eq', "2")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 4 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+      
+      <tr>
+        <th scope="col">Year Five</th>
+        <th scope="col">Semester One</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "1")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "1")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "1")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 5 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Five</th>
+        <th scope="col">Semester Two</th>
+        {% if (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "2")|first) %}
+        <th>Term GPA:{{ (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "2")|first).gpa }}</th>
+        <th>Term TCU:{{ (user.semesterGrades|selectattr("year", 'eq', 5)|selectattr("semester", 'eq', "2")|first).tcu }}</th>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Course Code:</th>
+        <th>Full Course Name:</th>
+        <th>Score:</th>
+        <th>Grade:</th>
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 5 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+    
+      <tr>
+        <th scope="col">Year Six</th>
+        <th scope="col">Semester One</th>
+        {% for sg in user.semesterGrades %}
+        {% if sg.year == 6 and sg.semester == "1"%}
+         
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 6 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Six</th>
+        <th scope="col">Semester Two</th>
+        {% for sg in user.semesterGrades %}
+        {% if sg.year == 6 and sg.semester == "1"%}
+         
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 6 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+    
+    
+    
+    
+      <tr>
+        <th scope="col">Year Seven</th>
+        <th scope="col">Semester One</th>
+        {% for sg in user.semesterGrades %}
+        {% if sg.year == 6 and sg.semester == "1"%}
+         
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% for sg in user.semesterGrades %}
+    
+      {% if sg.year == 7 and sg.semester == "1"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+      <tr>
+        <th></th>
+      </tr>
+      <tr>
+        <th scope="col">Year Seven</th>
+        <th scope="col">Semester Two</th>
+        {% for sg in user.semesterGrades %}
+        {% if sg.year == 6 and sg.semester == "1"%}
+         
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% for sg in user.semesterGrades %}
+      {% if sg.year == 7 and sg.semester == "2"%}
+      <tr scope="row">
+        <th>{{ sg.courseName }}</th>
+        <th>{{ sg.courseTitle }}</th>
+        <th>{{ sg.score }}</th>
+        <th>{{ sg.grade }}</th>
+        {% if isAdmin %}
+        <th>
+          <button type="button" class="close" onClick="deleteSemesterGrade({{ sg.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </th>
+        {% endif %}
+      </tr>
+      {% endif %}
+    
+      {% endfor %}
+    
+    </table>
+    {% if isAdmin %}
+    <h1 id="File_Upload" align="center">File Upload</h1>
+    <form method="POST" enctype=multipart/form-data>
+      <input type=file name=file>
+      <br />
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Add Grade</button>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    </form>
+    {% endif %}
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    
+    {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}See{% endblock %} {% block content%}
+<h1 align="center">Welcome!</h1>
+{% if isAdmin %}
+<h1 align="center">See Below for all Users and Click to Access/Update Their Grades</h1>
+{% for val in users %}
+{% if val.matriculationNumber != "admin" %}
+<p align="center"><a href={{"/" + val.matriculationNumber}}>{{val.matriculationNumber}}</a></p>
+
+{% endif %}
+{% endfor %}
+{% else %}
+<h1 align="center">To See Your Grades Click <a href={{"/" + user.matriculationNumber}}>Here!</a> </h1>
+{% endif %}
+{% endblock %}
